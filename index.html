@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>JSON-SIMPLE (API)</title>
+</head>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #0F0326;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    #header {
+        position: relative;
+        margin: 40px auto;
+
+        
+    }
+
+    .selector {
+        background-color: rgba(0, 0, 0, 0.5);
+        color: #fff;
+
+        border-radius: 10px;
+        text-align: center;
+        font-size: 20px;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        top: 0%;
+        left: 50%;
+        width: 650px;
+        margin: auto;
+
+    }
+    
+
+    .option {
+        background-color: #000;
+        color: #fff;
+        border-radius: 10px;
+        width: 350px;
+        text-align: center;
+
+    }
+
+
+
+    #country {
+        background-color: rgba(0, 0, 0, 0.8);
+
+        width: 500px;
+        border-radius: 10px;
+        text-align: center;
+        font-size: 20px;
+        border-radius: 20px;
+        margin: 80px auto 10px auto;
+        color: #f20f39;
+        font-weight: bold;
+        position: relative;
+        box-shadow: 2px 2px 20px #805dff;
+        border: 1px solid #222;
+        text-shadow: -1px 1px #222;
+
+    }
+
+    .flag-img {
+        width: 200px;
+        height: 200px;
+        position: absolute;
+        right: -30px;
+        border-radius: 50%;
+        top: -35px;
+        box-shadow: 2px 2px 20px #805dff;
+
+    }
+
+    .data-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
+</head>
+
+<body>
+<br>
+    <h1
+    style="text-align: center;color:#ffa400;margin-top: 5px;">
+    JSON-SIMPLE (API)<br>
+    <p style="color:#fff">https://restcountries.com/v2/all/</p></h1>
+
+
+    <div>
+        <div id="header">
+
+
+            <select class="selector" onchange="getch(this.value)">
+
+
+
+            </select>
+        </div>
+    </div><br>
+
+
+    <div id="country">
+
+
+    </div><br>
+    </div>
+
+
+
+    <script>
+        let header = document.getElementById("header");
+        let country = document.getElementById("country");
+
+        let finalUrl = `https://restcountries.com/v2/all/`;
+
+        fetch(finalUrl).then((response) => response.json()).then((data) => {
+
+            header.innerHTML += `
+            
+            <select class="selector" onchange="getch(this.value)">
+
+                <option class="option">Select Any Country </option>
+                ${data.map(data => `<option class="option">${data.name}</option>`)}
+
+                </select>`
+
+
+        });
+
+
+        function getch(e) {
+            let finalUrls = `https://restcountries.com/v3.1/name/${e}?fullText=true`;
+
+
+            fetch(finalUrls).then((response) => response.json()).then((data) => {
+
+                country.innerHTML = `
+
+                
+    
+    <img src="${data[0].flags.svg}" class="flag-img">
+    <h2 style="-webkit-text-stroke: 1px #eee;
+        color: #555;
+padding-top: 170px;
+    "> ${data[0].name.common}<br><hr style="width:100px;margin:10px auto"></h2><br>
+    <div class="wrapper">
+        <div class="data-wrapper">
+
+            <span style="color: #fff; padding-right: 7px;">${data[0].capital[0]}</span>
+            <h4>  / العاصمة</h4>
+
+            </div>
+        </div><br>
+
+
+        <div class="wrapper">
+        <div class="data-wrapper">
+
+            <span style="color: #fff; padding-right: 7px;">${data[0].continents[0]}</span>
+            <h4>  / القارة</h4>
+
+            </div>
+        </div><br>
+
+
+        
+        <div class="wrapper">
+        <div class="data-wrapper">
+
+            <span style="color: #fff; padding-right: 7px;">${data[0].population}</span>
+            <h4>  / عدد السكان</h4>
+
+            </div>
+        </div><br>
+
+            
+        <div class="wrapper">
+        <div class="data-wrapper">
+
+            <span style="color: #fff; padding-right: 7px;">${data[0].currencies[Object.keys(data[0].currencies)].name}-${Object.keys(data[0].currencies)[0]}</span>
+            <h4>  / العملة الرسمية</h4>
+
+            </div>
+        </div><br>
+
+        
+        <div class="wrapper">
+        <div class="data-wrapper">
+
+            <span style="color: #fff; padding-right: 7px;">${Object.values(data[0].languages).toString().split(",").join(",")}</span>
+            <h4>  / اللغة الأم</h4>
+
+            </div> 
+        </div><br><br>
+    
+    
+    `;
+
+            })
+        }
+    </script>
+</body>
+
+</html>
