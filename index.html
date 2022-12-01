@@ -1,166 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
-
-    <title>JSON-SIMPLE (API)</title>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" href="style.css" />
+<title>JSON-SIMPLE (API)</title>
 </head>
-
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        background-color: #fff;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    }
-
-    #header {
-        position: relative;
-        margin: 40px auto;
-
-        
-    }
-
-    .selector {
-        background-color: #eee;
-        color: #222;
-        border-radius: 10px;
-        text-align: center;
-        font-size: 20px;
-        position: absolute;
-        transform: translate(-50%, -50%);
-        top: 0%;
-        left: 50%;
-        width: 550px;
-        margin: auto;
-        font-weight:600;
-        border:none;
-        padding:3px;
-        outline: none;
-
-    }
-    
-
-    .option {
-        background-color: #eee;
-        color: #222;
-        border-radius: 10px;
-        width: 350px;
-        text-align: center;
-        font-weight:600;
-
-
-    }
-
-.container{
-    width:95%;
-    height:auto;
-    color:#000;
-background-color:#eee;
-margin:160px auto 20px auto;
-border-radius: 20px;
-padding-top:90px;
-padding-bottom:20px;
-display:flex;
-justify-content: space-between;
-position: relative;
-}
-    .img{
-        width: 200px;
-        height:200px;
-        border-radius: 50%;
-        position:absolute;
-        top:50%;
-        left:50%;
-        transform: translate(-50%,-50%);
-        z-index: 100;
-        border:20px solid #fff
-    }
-    .details{
-        height:40px; 
-         width:25%;  
-box-shadow: 1px 1px 4px #ddd;
-background-color: #F7F9F9 ;
-height:auto
-;margin:30px 30px;border-radius: 10px;text-align:center;
-    }
-</style>
-
-</head>
-
 <body>
 <br>
-    <h1
-    style="text-align: center;color:#76448A;margin-top: 5px;">
-    - JSON-SIMPLE (API) -<br>
-    <p style="color:#DC7633">https://restcountries.com/v2/all/</p></h1>
+<h2
+style="text-align: center;color:#76448A;margin-top: 5px;">
+- JSON-SIMPLE (API) -<br>
+<p style="color:#DC7633;font-size:20px">https://restcountries.com/v2/all/</p></h2>
+
+<div>
+<div id="header">
+
+    <select class="selector" onchange="getch(this.value)">  </select>
+</div></div><br><div> </div></div></div>
 
 
-    <div>
-        <div id="header">
+<div id="country">
 
-
-            <select class="selector" onchange="getch(this.value)">
-
-
-
-            </select>
-        </div>
-    </div><br><div>   
+</div><br>
 </div>
+
+
+
+<script>
+let header = document.getElementById("header");
+let country = document.getElementById("country");
+
+let finalUrl = `https://restcountries.com/v2/all/`;
+
+fetch(finalUrl).then((response) => response.json()).then((data) => {
+
+    header.innerHTML += `
     
-    
-    </div></div>
+    <select class="selector" onchange="getch(this.value)">
+
+        <option class="option">Select Any Country </option>
+        ${data.map(data => `<option class="option">${data.name}</option>`)}
+
+        </select>`
 
 
-
-    <div id="country">
-
-    </div><br>
-    </div>
+});
 
 
-
-    <script>
-        let header = document.getElementById("header");
-        let country = document.getElementById("country");
-
-        let finalUrl = `https://restcountries.com/v2/all/`;
-
-        fetch(finalUrl).then((response) => response.json()).then((data) => {
-
-            header.innerHTML += `
-            
-            <select class="selector" onchange="getch(this.value)">
-
-                <option class="option">Select Any Country </option>
-                ${data.map(data => `<option class="option">${data.name}</option>`)}
-
-                </select>`
+function getch(e) {
+    let finalUrls = `https://restcountries.com/v3.1/name/${e}?fullText=true`;
 
 
-        });
+    fetch(finalUrls).then((response) => response.json()).then((data) => {
 
+        country.innerHTML = `
 
-        function getch(e) {
-            let finalUrls = `https://restcountries.com/v3.1/name/${e}?fullText=true`;
-
-
-            fetch(finalUrls).then((response) => response.json()).then((data) => {
-
-                country.innerHTML = `
-
-                <img src="${data[0].flags.svg}" class="img">
 
 <div class="container">
+<img src="${data[0].flags.svg}" class="img">
 
 
 <div class="details"><img src="./img/language.png" style="width:40px;height:40px">
@@ -195,11 +93,11 @@ height:auto
 
 
 </div>
-    `;
+`;
 
-            })
-        }
-    </script>
+    })
+}
+</script>
 </body>
 
 </html>
