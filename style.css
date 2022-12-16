@@ -21,7 +21,7 @@ background-color: #eee;
 color: #222;
 border-radius: 10px;
 text-align: center;
-font-size: 20px;
+font-size: 17px;
 position: absolute;
 transform: translate(-50%, -50%);
 top: 0%;
@@ -32,6 +32,8 @@ font-weight:600;
 border:none;
 padding:3px;
 outline: none;
+cursor:pointer
+
 
 }
 
@@ -43,6 +45,7 @@ border-radius: 10px;
 width: 350px;
 text-align: center;
 font-weight:600;
+cursor:pointer
 
 }
 
